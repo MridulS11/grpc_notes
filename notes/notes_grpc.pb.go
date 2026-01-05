@@ -23,6 +23,7 @@ const (
 	NoteRequest_CreateNote_FullMethodName    = "/notes.NoteRequest/CreateNote"
 	NoteRequest_ListAllTitles_FullMethodName = "/notes.NoteRequest/ListAllTitles"
 	NoteRequest_ListAllNotes_FullMethodName  = "/notes.NoteRequest/ListAllNotes"
+	NoteRequest_StreamNotes_FullMethodName   = "/notes.NoteRequest/StreamNotes"
 )
 
 // NoteRequestClient is the client API for NoteRequest service.
@@ -33,6 +34,7 @@ type NoteRequestClient interface {
 	CreateNote(ctx context.Context, in *Note, opts ...grpc.CallOption) (*FetchByTitle, error)
 	ListAllTitles(ctx context.Context, in *ListTitles, opts ...grpc.CallOption) (*ListTitlesResponse, error)
 	ListAllNotes(ctx context.Context, in *ListNotes, opts ...grpc.CallOption) (*AllNotes, error)
+	StreamNotes(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ListNotes, Note], error)
 }
 
 type noteRequestClient struct {
@@ -83,6 +85,19 @@ func (c *noteRequestClient) ListAllNotes(ctx context.Context, in *ListNotes, opt
 	return out, nil
 }
 
+func (c *noteRequestClient) StreamNotes(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[ListNotes, Note], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &NoteRequest_ServiceDesc.Streams[0], NoteRequest_StreamNotes_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[ListNotes, Note]{ClientStream: stream}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type NoteRequest_StreamNotesClient = grpc.BidiStreamingClient[ListNotes, Note]
+
 // NoteRequestServer is the server API for NoteRequest service.
 // All implementations must embed UnimplementedNoteRequestServer
 // for forward compatibility.
@@ -91,6 +106,7 @@ type NoteRequestServer interface {
 	CreateNote(context.Context, *Note) (*FetchByTitle, error)
 	ListAllTitles(context.Context, *ListTitles) (*ListTitlesResponse, error)
 	ListAllNotes(context.Context, *ListNotes) (*AllNotes, error)
+	StreamNotes(grpc.BidiStreamingServer[ListNotes, Note]) error
 	mustEmbedUnimplementedNoteRequestServer()
 }
 
@@ -112,6 +128,9 @@ func (UnimplementedNoteRequestServer) ListAllTitles(context.Context, *ListTitles
 }
 func (UnimplementedNoteRequestServer) ListAllNotes(context.Context, *ListNotes) (*AllNotes, error) {
 	return nil, status.Error(codes.Unimplemented, "method ListAllNotes not implemented")
+}
+func (UnimplementedNoteRequestServer) StreamNotes(grpc.BidiStreamingServer[ListNotes, Note]) error {
+	return status.Error(codes.Unimplemented, "method StreamNotes not implemented")
 }
 func (UnimplementedNoteRequestServer) mustEmbedUnimplementedNoteRequestServer() {}
 func (UnimplementedNoteRequestServer) testEmbeddedByValue()                     {}
@@ -206,6 +225,13 @@ func _NoteRequest_ListAllNotes_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _NoteRequest_StreamNotes_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(NoteRequestServer).StreamNotes(&grpc.GenericServerStream[ListNotes, Note]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type NoteRequest_StreamNotesServer = grpc.BidiStreamingServer[ListNotes, Note]
+
 // NoteRequest_ServiceDesc is the grpc.ServiceDesc for NoteRequest service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -230,6 +256,13 @@ var NoteRequest_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _NoteRequest_ListAllNotes_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "StreamNotes",
+			Handler:       _NoteRequest_StreamNotes_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
 	Metadata: "notes/notes.proto",
 }

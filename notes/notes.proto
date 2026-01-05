@@ -14,11 +14,11 @@ message FetchByTitle{
     string Title = 1;
 }
 
+message ListTitles{}
+
 message ListTitlesResponse {
     repeated string titles = 1;
 }
-
-message ListTitles{}
 
 message ListNotes{}
 
@@ -31,4 +31,5 @@ service NoteRequest{
     rpc CreateNote(Note) returns (FetchByTitle);
     rpc ListAllTitles(ListTitles) returns (ListTitlesResponse);
     rpc ListAllNotes(ListNotes) returns (AllNotes);
+    rpc StreamNotes(stream ListNotes) returns (stream Note);
 }

@@ -125,50 +125,6 @@ func (x *FetchByTitle) GetTitle() string {
 	return ""
 }
 
-type ListTitlesResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Titles        []string               `protobuf:"bytes,1,rep,name=titles,proto3" json:"titles,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *ListTitlesResponse) Reset() {
-	*x = ListTitlesResponse{}
-	mi := &file_notes_notes_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *ListTitlesResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*ListTitlesResponse) ProtoMessage() {}
-
-func (x *ListTitlesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_notes_notes_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use ListTitlesResponse.ProtoReflect.Descriptor instead.
-func (*ListTitlesResponse) Descriptor() ([]byte, []int) {
-	return file_notes_notes_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *ListTitlesResponse) GetTitles() []string {
-	if x != nil {
-		return x.Titles
-	}
-	return nil
-}
-
 type ListTitles struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -177,7 +133,7 @@ type ListTitles struct {
 
 func (x *ListTitles) Reset() {
 	*x = ListTitles{}
-	mi := &file_notes_notes_proto_msgTypes[3]
+	mi := &file_notes_notes_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -189,7 +145,7 @@ func (x *ListTitles) String() string {
 func (*ListTitles) ProtoMessage() {}
 
 func (x *ListTitles) ProtoReflect() protoreflect.Message {
-	mi := &file_notes_notes_proto_msgTypes[3]
+	mi := &file_notes_notes_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -202,7 +158,51 @@ func (x *ListTitles) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListTitles.ProtoReflect.Descriptor instead.
 func (*ListTitles) Descriptor() ([]byte, []int) {
+	return file_notes_notes_proto_rawDescGZIP(), []int{2}
+}
+
+type ListTitlesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Titles        []string               `protobuf:"bytes,1,rep,name=titles,proto3" json:"titles,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListTitlesResponse) Reset() {
+	*x = ListTitlesResponse{}
+	mi := &file_notes_notes_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListTitlesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListTitlesResponse) ProtoMessage() {}
+
+func (x *ListTitlesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_notes_notes_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListTitlesResponse.ProtoReflect.Descriptor instead.
+func (*ListTitlesResponse) Descriptor() ([]byte, []int) {
 	return file_notes_notes_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *ListTitlesResponse) GetTitles() []string {
+	if x != nil {
+		return x.Titles
+	}
+	return nil
 }
 
 type ListNotes struct {
@@ -295,20 +295,21 @@ const file_notes_notes_proto_rawDesc = "" +
 	"\x05Title\x18\x02 \x01(\tR\x05Title\x12\x18\n" +
 	"\aContent\x18\x03 \x01(\tR\aContent\"$\n" +
 	"\fFetchByTitle\x12\x14\n" +
-	"\x05Title\x18\x01 \x01(\tR\x05Title\",\n" +
-	"\x12ListTitlesResponse\x12\x16\n" +
-	"\x06titles\x18\x01 \x03(\tR\x06titles\"\f\n" +
+	"\x05Title\x18\x01 \x01(\tR\x05Title\"\f\n" +
 	"\n" +
-	"ListTitles\"\v\n" +
+	"ListTitles\",\n" +
+	"\x12ListTitlesResponse\x12\x16\n" +
+	"\x06titles\x18\x01 \x03(\tR\x06titles\"\v\n" +
 	"\tListNotes\"-\n" +
 	"\bAllNotes\x12!\n" +
-	"\x05notes\x18\x01 \x03(\v2\v.notes.NoteR\x05notes2\xdc\x01\n" +
+	"\x05notes\x18\x01 \x03(\v2\v.notes.NoteR\x05notes2\x8e\x02\n" +
 	"\vNoteRequest\x12+\n" +
 	"\aGetNote\x12\x13.notes.FetchByTitle\x1a\v.notes.Note\x12.\n" +
 	"\n" +
 	"CreateNote\x12\v.notes.Note\x1a\x13.notes.FetchByTitle\x12=\n" +
 	"\rListAllTitles\x12\x11.notes.ListTitles\x1a\x19.notes.ListTitlesResponse\x121\n" +
-	"\fListAllNotes\x12\x10.notes.ListNotes\x1a\x0f.notes.AllNotesB\bZ\x06/notesb\x06proto3"
+	"\fListAllNotes\x12\x10.notes.ListNotes\x1a\x0f.notes.AllNotes\x120\n" +
+	"\vStreamNotes\x12\x10.notes.ListNotes\x1a\v.notes.Note(\x010\x01B\bZ\x06/notesb\x06proto3"
 
 var (
 	file_notes_notes_proto_rawDescOnce sync.Once
@@ -326,8 +327,8 @@ var file_notes_notes_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_notes_notes_proto_goTypes = []any{
 	(*Note)(nil),               // 0: notes.Note
 	(*FetchByTitle)(nil),       // 1: notes.FetchByTitle
-	(*ListTitlesResponse)(nil), // 2: notes.ListTitlesResponse
-	(*ListTitles)(nil),         // 3: notes.ListTitles
+	(*ListTitles)(nil),         // 2: notes.ListTitles
+	(*ListTitlesResponse)(nil), // 3: notes.ListTitlesResponse
 	(*ListNotes)(nil),          // 4: notes.ListNotes
 	(*AllNotes)(nil),           // 5: notes.AllNotes
 }
@@ -335,14 +336,16 @@ var file_notes_notes_proto_depIdxs = []int32{
 	0, // 0: notes.AllNotes.notes:type_name -> notes.Note
 	1, // 1: notes.NoteRequest.GetNote:input_type -> notes.FetchByTitle
 	0, // 2: notes.NoteRequest.CreateNote:input_type -> notes.Note
-	3, // 3: notes.NoteRequest.ListAllTitles:input_type -> notes.ListTitles
+	2, // 3: notes.NoteRequest.ListAllTitles:input_type -> notes.ListTitles
 	4, // 4: notes.NoteRequest.ListAllNotes:input_type -> notes.ListNotes
-	0, // 5: notes.NoteRequest.GetNote:output_type -> notes.Note
-	1, // 6: notes.NoteRequest.CreateNote:output_type -> notes.FetchByTitle
-	2, // 7: notes.NoteRequest.ListAllTitles:output_type -> notes.ListTitlesResponse
-	5, // 8: notes.NoteRequest.ListAllNotes:output_type -> notes.AllNotes
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
+	4, // 5: notes.NoteRequest.StreamNotes:input_type -> notes.ListNotes
+	0, // 6: notes.NoteRequest.GetNote:output_type -> notes.Note
+	1, // 7: notes.NoteRequest.CreateNote:output_type -> notes.FetchByTitle
+	3, // 8: notes.NoteRequest.ListAllTitles:output_type -> notes.ListTitlesResponse
+	5, // 9: notes.NoteRequest.ListAllNotes:output_type -> notes.AllNotes
+	0, // 10: notes.NoteRequest.StreamNotes:output_type -> notes.Note
+	6, // [6:11] is the sub-list for method output_type
+	1, // [1:6] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name

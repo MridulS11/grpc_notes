@@ -3,6 +3,7 @@ package internals
 import (
 	"context"
 	"errors"
+	"fmt"
 	"grpc_note_program/notes"
 	"sync"
 )
@@ -60,4 +61,23 @@ func(s *NoteRequest) ListAllNotes(ctx context.Context, req *notes.ListNotes) (*n
 		notesList = append(notesList, notes)
 	}
 	return &notes.AllNotes{Notes: notesList}, nil
+}
+
+func(s *NoteRequest) StreamNotes(stream notes.NoteRequest_StreamNotesServer) (error){
+	_, err := stream.Recv()
+	if err != nil{
+		return err
+	}
+
+	fmt.Println("Streaming Started...")
+
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+
+	for _, page := range s.data{
+		if err := stream.Send(page); err !=nil{
+			return err
+		}
+	}
+	return nil
 }
